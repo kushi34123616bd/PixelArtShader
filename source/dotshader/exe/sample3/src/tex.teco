@@ -1,0 +1,16 @@
+#include "..\\..\\bin\\TexConv_common.h"
+
+
+
+dest_name "..\\tex.png"
+
+
+tex_material "tex.png"
+
+
+// 1: 赤
+set 1, 255, 255, 0	// マテリアルテクスチャの黄色い部分を指定
+
+// 2: 青
+set 2, 0, 0, 255	// マテリアルテクスチャの青い部分を指定
+

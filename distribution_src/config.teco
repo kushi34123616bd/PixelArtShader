@@ -1,0 +1,38 @@
+#include "common.h"
+
+
+/*
+↑ここから
+
+
+↓ここまではコメントなので、何を書いても無視される
+*/
+
+
+//←ここから行末までもコメント
+
+
+#if 0
+// こういうC言語形式のコメントも使用可能
+#endif
+
+
+
+	model_name	"sample1\\sample1.x"
+//	model_name	"sample2\\sample2.x"
+//	model_name	"sample3\\sample3.x"
+//	model_name	"sample4\\sample4.x"
+
+
+
+capture_path	"dest"
+
+resolution	256, 256
+
+resolution_inner_max	1024 * 2, 1024 * 2
+//resolution_inner_max	1024, 1024
+//resolution_inner_max	2040, 2040
+
+
+camera_fov_y	45.0
+

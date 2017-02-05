@@ -1,0 +1,41 @@
+#include "../common.h"
+
+
+// レンダリングモードにする
+capture		true
+
+
+// レンダリング結果の保存パス
+capture_path	"dest\\sample4"
+
+
+// レンダリング解像度
+//resolution	64, 64
+//resolution	96, 96
+//resolution	128, 128
+resolution	256, 256
+//resolution	1024, 1024
+//resolution	1280, 1280
+
+
+// モデルのアニメーションデータを無視して0フレーム目だけを表示
+//anime_set_frame 0
+
+
+// カメラの画角（縦方向の角度）
+camera_fov_y	45.0
+
+
+// モデルデータ内のカメラ情報を無視して以下のパラメータを使う
+//camera_ignore_data true
+
+// カメラの位置
+camera_pos	0,
+			2.9,
+			-6.5
+
+// カメラの注視点
+camera_lookat	0,
+				2.9,
+				0
+

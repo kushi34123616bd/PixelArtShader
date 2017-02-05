@@ -1,0 +1,51 @@
+#include "common.h"
+
+
+
+//debug		true
+
+
+
+#if 1
+//	model_name	"pastel\\pastel.x"
+//	model_name	"monkey\\monkey7.x"
+//	model_name	"kabo\\kabo.x"
+//	model_name	"primitive\\primitive.x"
+
+	model_name	"pastel\\pastel.x"
+
+
+//	model_name	"penguin\\penguin.x"
+//	model_name	"robot\\robot.x"
+
+//	model_name	"chunli\\chunli.x"
+
+//	model_name	"sample1\\sample1.x"
+//	model_name	"sample2\\sample2.x"
+//	model_name	"sample3\\sample3.x"
+//	model_name	"sample4\\sample4_new.x"
+
+#else
+
+//	model_name	"miku\\mikuv2_watashinozikanshort2.x"
+//	model_name	"miku\\mikuv2_kiramekirari.x"
+	model_name	"miku\\mikuv3_kiramekirari.x"
+//	model_name	"miku\\mikuv3.x"
+
+#endif
+
+
+//capture		true
+//capture		false
+
+capture_path	"dest"
+
+resolution	256, 256
+
+//resolution_inner_max	1024 * 2, 1024 * 2
+resolution_inner_max	1024, 1024
+//resolution_inner_max	2040, 2040
+
+
+camera_fov_y	45.0
+

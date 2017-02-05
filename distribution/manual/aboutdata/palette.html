@@ -1,0 +1,450 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>パレットテクスチャ &mdash; Pixel Art Shader 1.0.1 ドキュメント</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Pixel Art Shader 1.0.1 ドキュメント" href="../index.html" />
+    <link rel="up" title="データについて" href="index.html" />
+    <link rel="next" title="モデルテクスチャ" href="texture.html" />
+    <link rel="prev" title="モデルデータ" href="model.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="texture.html" title="モデルテクスチャ"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="model.html" title="モデルデータ"
+             accesskey="P">前へ</a> |</li>
+        <li><a href="../index.html">Pixel Art Shader 1.0.1 ドキュメント</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">データについて</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>パレットテクスチャ<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="id2">
+<h2>パレットテクスチャとは<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">パレットテクスチャはドット絵シェーダーで最も重要な要素です。</div>
+<div class="line">レンダリングに使われる <strong>色</strong> を定義するとともに、照明によってどの部分にどの色が使われるかを定義します。</div>
+<div class="line"><br /></div>
+<div class="line">パレットテクスチャは設定ファイルからコンバータを使用して出力します。</div>
+<div class="line">このページではパレットテクスチャの詳細と、設定ファイルの書き方、パレットテクスチャの出力方法を解説します。</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>マテリアル<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">モデルデータ内の全てのポリゴンは、 <a class="reference internal" href="model.html"><em>モデルデータ</em></a> を参考に <strong>マテリアル番号</strong> を割り振ります。</div>
+<div class="line">マテリアルは &#8220;赤いマフラー&#8221; や &#8220;白いパンタロン&#8221; のように、おおまかな色ごとに設定します。</div>
+<div class="line">そしてマテリアルごとに、&#8221;明るい部分はこの色&#8221; &#8220;暗い部分はこの色&#8221; という色を割り振ります。</div>
+<div class="line"><br /></div>
+<div class="line">パレットテクスチャは &#8220;マテリアル番号&#8221; と &#8220;明るさ&#8221; から &#8220;色&#8221; を決定する変換辞書の役割を持っています。</div>
+<div class="line"><br /></div>
+<div class="line">従ってパレットテクスチャを作るには、設定ファイルにマテリアルを2つ以上（1つは背景）記述し、マテリアルに対して明るさと色の関係を記述することになります。</div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line">例として、sample1/src/palette_debug.png を見てみると、以下のようになっています。</div>
+</div>
+<img alt="../_images/sample_palette_debug.png" src="../_images/sample_palette_debug.png" />
+<div class="line-block">
+<div class="line">横に3つのマテリアル（黒い背景、緑の箱、青い球）があり、上から下にかけて暗くなっています。</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>明るさ<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">ドット絵シェーダーでは明るさを大きく3段階に分けて考えています。</div>
+<div class="line">明るさを 0%（最も暗い）～ 300%（最も明るい） とすると、以下のようになります。</div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">明るさ</th>
+<th class="head">状態</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>201% ～ 300%</td>
+<td>ポリゴンはメインライトの方向を向いていて、スペキュラーによりとても明るくなっている</td>
+</tr>
+<tr class="row-odd"><td>101% ～ 200%</td>
+<td>ポリゴンはメインライトの方向を向いている</td>
+</tr>
+<tr class="row-even"><td>0% ～ 100%</td>
+<td>ポリゴンはメインライトに対して裏を向いている</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line">例えば以下のパレットでは、青いマテリアルに対して50%ずつ色を設定してあるのが分かります。</div>
+</div>
+<img alt="../_images/sample2_palette_debug.png" src="../_images/sample2_palette_debug.png" />
+<div class="line-block">
+<div class="line">これを青い球に適用し、メインライトを右上から左下に向けてレンダリングしたのが以下の画像です。</div>
+</div>
+<img alt="../_images/light00.png" src="../_images/light00.png" />
+<div class="line-block">
+<div class="line">スペキュラーは切ってあるため、0% ～ 200% までの色が使われているのが分かります。</div>
+<div class="line">ここにスペキュラーを追加すると、以下のようになります。</div>
+</div>
+<img alt="../_images/light01.png" src="../_images/light01.png" />
+<div class="line-block">
+<div class="line">201% ～ 250% までの色が使われました。</div>
+<div class="line">メインライトの向きを調整すればスペキュラーは更に明るくなり、251% 以上の色も使われるでしょう。</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>明るさの確認<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">パレットテクスチャを出力するコンバータには明るさ確認のための機能があります。</div>
+<div class="line">この機能を使うと、前節の画像は以下のようになります。</div>
+<div class="line"><br /></div>
+<div class="line">パレット</div>
+</div>
+<img alt="../_images/sample2_palette_debug2.png" src="../_images/sample2_palette_debug2.png" />
+<div class="line-block">
+<div class="line">レンダリング結果</div>
+</div>
+<img alt="../_images/light02.png" src="../_images/light02.png" />
+<div class="line-block">
+<div class="line">どの部分がどれくらいの明るさか、というのが確認できます。</div>
+<div class="line">このデータはサンプルデータ2として添付してあります。</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>設定ファイル<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">パレットテクスチャを出力するには、palette.teco という設定ファイルを用意します。</div>
+</div>
+<div class="section" id="id7">
+<h3>サンプル<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="line-block">
+<div class="line">全体の構成は以下のようになります。</div>
+</div>
+<div class="highlight-teco"><div class="highlight"><pre><span class="k">#include</span> <span class="s">&quot;..\\..\\bin\\MakePaletteTex_common.h&quot;</span> <span class="c1">// 必ず必要な行</span>
+
+
+MaxPer 200 + 100        <span class="c1">// PerCol命令の最大値を300％とする ※計算式が使える</span>
+
+MateEdge off    <span class="c1">// マテリアルエッジをデフォルトで off にする</span>
+
+DarkNormal      <span class="c1">// ダーク部分の処理をデフォルトで「通常」に設定する</span>
+
+
+<span class="c1">// マテリアル0番（背景色に固定）</span>
+Material 0                      <span class="c1">// マテリアル番号指定</span>
+Col 1, 255, 255, 255            <span class="c1">// 単色の白</span>
+
+
+<span class="c1">// マテリアル1番</span>
+Material 1                      <span class="c1">// マテリアル番号指定</span>
+Col 5,   0, 255,   0            <span class="c1">// 5段階の緑</span>
+DarkCol 255, 255, 0             <span class="c1">// このマテリアルのダーク部分を黄色に設定する</span>
+
+
+<span class="c1">// マテリアル2番</span>
+Material 2                      <span class="c1">// マテリアル番号指定</span>
+PerCol 150,  255,    0,    0    <span class="c1">// 明るさが半分以上(150～300%)の部分を赤にする</span>
+PerCol  50, 0x00, 0x00, 0xff    <span class="c1">// 明るさが100%～150%の部分を青にする ※16進数表記</span>
+PerColEnd                       <span class="c1">// 色指定終了（残りの100%は青で埋められる）</span>
+Edge off                        <span class="c1">// エッジとガターを off にする（デフォルトでマテリアルエッジも off にしてあるので、ダーク部分が存在しなくなる）</span>
+Gutter off
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>命令<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="line-block">
+<div class="line">設定ファイル中で使用できる命令は以下の通りです。</div>
+</div>
+<blockquote>
+<div><dl class="docutils">
+<dt>MaxPer int per</dt>
+<dd><div class="first last line-block">
+<div class="line">明るさを何%までの数字で表すかを指定します。</div>
+<div class="line">300を指定するのがいいでしょう。</div>
+<div class="line">per：明るさの最大%</div>
+</div>
+</dd>
+<dt>Material int num</dt>
+<dd><div class="first last line-block">
+<div class="line">これから記述するマテリアルの番号を指定します。</div>
+<div class="line">0番は背景専用です。</div>
+<div class="line">num：マテリアル番号（0～23）</div>
+</div>
+</dd>
+<dt>PerCol int per, int r, int g, int b</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアル内の色を1色指定します。</div>
+<div class="line">この命令を明るい色から順に書くことで、マテリアル内の色を全て指定します。</div>
+<div class="line">参考→ PerColEnd</div>
+<div class="line">per：この色のマテリアルに占める%（参考→ MaxPer）</div>
+<div class="line">r：赤成分（0～255）</div>
+<div class="line">g：緑成分（0～255）</div>
+<div class="line">b：青成分（0～255）</div>
+<div class="line">※マテリアル内の全ての per の合計は MaxPer で指定した値以下である必要があります。</div>
+<div class="line">※合計が MaxPer に満たない場合、最後に指定した色で埋められます。</div>
+<div class="line">※PerCol 命令を続けて書く間に他の命令を書くことはできません。</div>
+<div class="line">※他の Col??? 命令と混在できません。</div>
+</div>
+</dd>
+<dt>PerColEnd</dt>
+<dd><div class="first last line-block">
+<div class="line">PerCol 命令の終了を宣言します。</div>
+<div class="line">PerCol 命令を1行以上書いた後に必ず必要です。</div>
+</div>
+</dd>
+<dt>AdjustRate float rate</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアル内の色の比率を微調整します。</div>
+<div class="line">rate = 1.0：調整しない（デフォルト）</div>
+<div class="line">rate &gt; 1.0：明るい部分を増やす</div>
+<div class="line">rate &lt; 1.0：暗い部分を増やす</div>
+<div class="line">※この命令の直後に書かれた PerCol にのみ影響します。</div>
+<div class="line">　従って、PerCol の前の行に書いてください。</div>
+<div class="line">※rate の値は、0.7 や 1.5 などを指定します。</div>
+<div class="line">※変化具合は出力された <code class="docutils literal"><span class="pre">palette_debug.png</span></code> でご確認ください。</div>
+</div>
+</dd>
+<dt>Col int divNum, int r, int g, int b</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルに含まれる全ての色を <strong>簡易的に</strong> 指定します。</div>
+<div class="line">指定された分割数に応じて、指定された色を明るくした色と暗くした色が自動的に作られます。</div>
+<div class="line">微調整はできません。</div>
+<div class="line">divNum：分割数</div>
+<div class="line">r：赤成分（0～255）</div>
+<div class="line">g：緑成分（0～255）</div>
+<div class="line">b：青成分（0～255）</div>
+</div>
+</dd>
+<dt>ColGrad int divNum, int r1, int g1, int b1, int r2, int g2, int b2</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルに含まれる全ての色を <strong>簡易的に</strong> 指定します。</div>
+<div class="line">指定された分割数に応じて、明るい色から暗い色までのグラデーションが自動的に作られます。</div>
+<div class="line">微調整はできません。</div>
+<div class="line">divNum：分割数（2以上）</div>
+<div class="line">r1：明るい色の赤成分（0～255）</div>
+<div class="line">g1：明るい色の緑成分（0～255）</div>
+<div class="line">b1：明るい色の青成分（0～255）</div>
+<div class="line">r2：暗い色の赤成分（0～255）</div>
+<div class="line">g2：暗い色の緑成分（0～255）</div>
+<div class="line">b2：暗い色の青成分（0～255）</div>
+</div>
+</dd>
+<dt>ColMix int divNum</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルに含まれる全ての色を <strong>明るさ確認用に</strong> 指定します。</div>
+<div class="line">指定された分割数に応じて、様々な色のグラデーションが自動的に作られます。</div>
+<div class="line"><a class="reference internal" href="#id5">明るさの確認</a> をご覧ください。</div>
+<div class="line">divNum：分割数（2以上）</div>
+</div>
+</dd>
+<dt>DarkNormal</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルのダーク部分の処理を「通常」に設定します。</div>
+<div class="line">全てのマテリアルよりも前に書くことでデフォルトの設定になります（元からデフォルトなので省略可）。</div>
+<div class="line">※ダーク部分とは、種々の条件により暗い色として処理される部分のことです。</div>
+</div>
+</dd>
+<dt>DarkNone</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルのダーク部分の処理を「なし」に設定します。</div>
+<div class="line">全てのマテリアルよりも前に書くことでデフォルトの設定になります。</div>
+</div>
+</dd>
+<dt>DarkCol int r, int g, int b</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルのダーク部分の処理を「色指定」に設定します。</div>
+<div class="line">全てのマテリアルよりも前に書くことでデフォルトの設定になります。</div>
+<div class="line">r：赤成分（0～255）</div>
+<div class="line">g：緑成分（0～255）</div>
+<div class="line">b：青成分（0～255）</div>
+</div>
+</dd>
+<dt>Edge int flag</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルのエッジ処理の on/off を設定します。</div>
+<div class="line">デフォルトは on です。</div>
+<div class="line">全てのマテリアルよりも前に書くことでデフォルトの設定になります。</div>
+<div class="line">flag：on か off</div>
+</div>
+</dd>
+<dt>MateEdge int flag</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルのマテリアルエッジ処理の on/off を設定します。</div>
+<div class="line">デフォルトは on です。</div>
+<div class="line">全てのマテリアルよりも前に書くことでデフォルトの設定になります。</div>
+<div class="line">flag：on か off</div>
+<div class="line">※マテリアルエッジとは異なるマテリアル同士の境界部分のことで、手前側のマテリアルにのみ作用します。</div>
+</div>
+</dd>
+<dt>NoEdge int targetMaterialNo, int flag</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルの <strong>指定したマテリアルに対しての</strong> エッジを抑制します。</div>
+<div class="line">デフォルトは 全てのマテリアルに対してoff です。</div>
+<div class="line">全てのマテリアルよりも前に書くことでデフォルトの設定になります。</div>
+<div class="line">targetMaterialNo：対象となるマテリアル番号</div>
+<div class="line">flag：on か off</div>
+<div class="line">※on にすると、対象マテリアルとの境界部分にエッジ処理がされなくなります。</div>
+<div class="line">※複数指定可能です。</div>
+<div class="line">※使用例：キャラクターの顔の各パーツを干渉させないようにする</div>
+</div>
+</dd>
+<dt>Gutter int flag</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルのガター（溝）処理の on/off を設定します。</div>
+<div class="line">デフォルトは on です。</div>
+<div class="line">全てのマテリアルよりも前に書くことでデフォルトの設定になります。</div>
+<div class="line">flag：on か off</div>
+</div>
+</dd>
+<dt>AAThreshold float n</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルのAA（アンチエイリアス）処理をする範囲を指定します。</div>
+<div class="line">デフォルトは 0.5 です。</div>
+<div class="line">全てのマテリアルよりも前に書くことでデフォルトの設定になります。</div>
+<div class="line">n：0.0（AAなし） ～ 1.0（ほぼ全てのエッジ）</div>
+</div>
+</dd>
+<dt>AASubtracter float n</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルのAA（アンチエイリアス）処理の強さを指定します。</div>
+<div class="line">デフォルトは 1.0 です。</div>
+<div class="line">全てのマテリアルよりも前に書くことでデフォルトの設定になります。</div>
+<div class="line">n：0.0（弱い） ～ 1.0（強い）</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>出力方法<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">palette.teco と同じフォルダにある MakePaletteTex.bat を実行します。</div>
+<div class="line">palette.teco と同じフォルダには確認用の palette_debug.png が生成され、</div>
+<div class="line">親フォルダ（.x があるフォルダ）に palette.png が生成されます。</div>
+<div class="line"><br /></div>
+<div class="line">フォルダの階層構造を変化させると動作しません。</div>
+<div class="line">その場合は palette.teco 内の <code class="docutils literal"><span class="pre">#include</span></code> 及び MakePaletteTex.bat を編集してください。</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">目次</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../outline.html">ドット絵シェーダーの概要</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../outline.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../outline.html#id3">必要なデータ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../outline.html#id4">出力されるデータ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../firststep.html">最初の一歩</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../firststep.html#id2">実行してみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firststep.html#id3">実行モード</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firststep.html#id4">調整モードの使い方</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firststep.html#id5">データを見てみる</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">データについて</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="structure.html">データ構造</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">configファイル</a></li>
+<li class="toctree-l2"><a class="reference internal" href="teco.html">Teco形式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html">モデルデータ</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">パレットテクスチャ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texture.html">モデルテクスチャ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shaderparam.html">シェーダーのパラメータについて</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">ライセンス</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../license.html#id2">ライセンスについて</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">更新履歴</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#ver-1-0-0-2015-02-06">ver. 1.0.0  2015/02/06</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#ver-1-0-1-2016-02-22">ver. 1.0.1  2016/02/22</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="texture.html" title="モデルテクスチャ"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="model.html" title="モデルデータ"
+             >前へ</a> |</li>
+        <li><a href="../index.html">Pixel Art Shader 1.0.1 ドキュメント</a> &raquo;</li>
+          <li><a href="index.html" >データについて</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, 2016, Toshihiro Kushizaki.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3b2 で生成しました。
+    </div>
+  </body>
+</html>

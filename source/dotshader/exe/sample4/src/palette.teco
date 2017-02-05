@@ -1,0 +1,41 @@
+////////////////////////////////////////////////////////////
+//
+// パレットテクスチャ定義スクリプト
+//
+////////////////////////////////////////////////////////////
+
+
+#include "..\\..\\bin\\MakePaletteTex_common.h"
+
+
+MaxPer 300
+
+
+
+
+// 0: 背景
+Material 0
+Col 1, 0, 0, 0
+
+
+
+// 1: cube
+Material 1
+PerCol 150,   0, 255,   0
+PerCol 50,    0, 192,   0
+PerCol 50,    0, 128,   0
+PerCol 50,    0,  64,   0
+PerColEnd
+
+
+
+// 2: sphere
+Material 2
+PerCol 50,  128, 128, 255
+PerCol 50,   64,  64, 255
+PerCol 50,    0,   0, 255
+PerCol 50,    0,   0, 192
+PerCol 50,    0,   0, 128
+PerCol 50,    0,   0,  64
+PerColEnd
+

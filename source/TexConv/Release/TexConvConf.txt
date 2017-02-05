@@ -1,0 +1,20 @@
+#include "TexConvCommon.h"
+
+
+
+dest_name "__tex_p_kao.bmp"
+
+
+tex_material "tex_p_kao.bmp"
+// tex_light "hoge.bmp"
+
+
+// 11: ŠçF•
+set 11, 0, 0, 0
+
+// 12: ŠçF”’
+set 12, 255, 255, 255
+
+// 1: ”§F
+set 1, 252, 228, 199
+

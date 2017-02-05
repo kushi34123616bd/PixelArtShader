@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ドット絵シェーダー マニュアル &mdash; Pixel Art Shader 1.0.1 ドキュメント</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Pixel Art Shader 1.0.1 ドキュメント" href="#" />
+    <link rel="next" title="ドット絵シェーダーの概要" href="outline.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="outline.html" title="ドット絵シェーダーの概要"
+             accesskey="N">次へ</a> |</li>
+        <li><a href="#">Pixel Art Shader 1.0.1 ドキュメント</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>ドット絵シェーダー マニュアル<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="line-block">
+<div class="line">最近はドット絵のゲームが少ないなぁ</div>
+<div class="line">開発費がたくさんかかるらしいからなぁ</div>
+<div class="line">そうだ！シェーダーで量産できるようにしたらドット絵のゲーム増えるんじゃね！？</div>
+<div class="line">ということで作ってみました</div>
+<div class="line"><br /></div>
+<div class="line">まだまだな完成度ですが、フィードバックお願いします！</div>
+</div>
+<p>目次:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="outline.html">ドット絵シェーダーの概要</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="outline.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="outline.html#id3">必要なデータ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="outline.html#id4">出力されるデータ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="firststep.html">最初の一歩</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="firststep.html#id2">実行してみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="firststep.html#id3">実行モード</a></li>
+<li class="toctree-l2"><a class="reference internal" href="firststep.html#id4">調整モードの使い方</a></li>
+<li class="toctree-l2"><a class="reference internal" href="firststep.html#id5">データを見てみる</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="aboutdata/index.html">データについて</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/structure.html">データ構造</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/structure.html#id2">フォルダ構造</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/structure.html#id3">ファイル構成</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/config.html">configファイル</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/config.html#id1">configファイルとは</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/config.html#id2">設定項目</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/teco.html">Teco形式</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/teco.html#id2">文字コード</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/teco.html#id3">命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/teco.html#id4">命令の引数の見方</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/teco.html#id5">コメント</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/model.html">モデルデータ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/model.html#blender">Blenderについて</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aboutdata/model.html#id2">日本語対応</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aboutdata/model.html#id3">制限</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/model.html#id4">マテリアルの設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/model.html#id5">テクスチャの設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/model.html#id6">アニメーションデータ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/model.html#id7">カメラの設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/model.html#id8">ライトの設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/model.html#id9">モデルデータの出力方法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/palette.html">パレットテクスチャ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/palette.html#id2">パレットテクスチャとは</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/palette.html#id3">マテリアル</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/palette.html#id4">明るさ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/palette.html#id5">明るさの確認</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/palette.html#id6">設定ファイル</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aboutdata/palette.html#id7">サンプル</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aboutdata/palette.html#id8">命令</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/palette.html#id9">出力方法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/texture.html">モデルテクスチャ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/texture.html#id2">テクスチャコンバータが入出力するテクスチャ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/texture.html#id3">マテリアルテクスチャとは</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/texture.html#id4">アンビエントオクルージョンテクスチャとは</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/texture.html#id5">ライトテクスチャとは</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/texture.html#id6">設定ファイル</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aboutdata/texture.html#id7">サンプル</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aboutdata/texture.html#id8">命令</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/texture.html#id9">テクスチャコンバータの使い方</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/shaderparam.html">シェーダーのパラメータについて</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/shaderparam.html#id2">シェーダーのパラメータとは</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/shaderparam.html#id3">スーパーサンプリングについて</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/shaderparam.html#z-threshold">Z threshold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/shaderparam.html#angle-threshold">angle threshold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/shaderparam.html#gutter-threshold">gutter threshold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aboutdata/shaderparam.html#ignore-count-threshold">ignore count threshold</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">ライセンス</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="license.html#id2">ライセンスについて</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">更新履歴</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#ver-1-0-0-2015-02-06">ver. 1.0.0  2015/02/06</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#ver-1-0-1-2016-02-22">ver. 1.0.1  2016/02/22</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="#">目次</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="outline.html">ドット絵シェーダーの概要</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="outline.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="outline.html#id3">必要なデータ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="outline.html#id4">出力されるデータ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="firststep.html">最初の一歩</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="firststep.html#id2">実行してみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="firststep.html#id3">実行モード</a></li>
+<li class="toctree-l2"><a class="reference internal" href="firststep.html#id4">調整モードの使い方</a></li>
+<li class="toctree-l2"><a class="reference internal" href="firststep.html#id5">データを見てみる</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="aboutdata/index.html">データについて</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/structure.html">データ構造</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/config.html">configファイル</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/teco.html">Teco形式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/model.html">モデルデータ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/palette.html">パレットテクスチャ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/texture.html">モデルテクスチャ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aboutdata/shaderparam.html">シェーダーのパラメータについて</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">ライセンス</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="license.html#id2">ライセンスについて</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">更新履歴</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#ver-1-0-0-2015-02-06">ver. 1.0.0  2015/02/06</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#ver-1-0-1-2016-02-22">ver. 1.0.1  2016/02/22</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="outline.html" title="ドット絵シェーダーの概要"
+             >次へ</a> |</li>
+        <li><a href="#">Pixel Art Shader 1.0.1 ドキュメント</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, 2016, Toshihiro Kushizaki.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3b2 で生成しました。
+    </div>
+  </body>
+</html>

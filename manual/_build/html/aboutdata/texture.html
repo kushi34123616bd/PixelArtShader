@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>モデルテクスチャ &mdash; Pixel Art Shader 1.0.1 ドキュメント</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Pixel Art Shader 1.0.1 ドキュメント" href="../index.html" />
+    <link rel="up" title="データについて" href="index.html" />
+    <link rel="next" title="シェーダーのパラメータについて" href="shaderparam.html" />
+    <link rel="prev" title="パレットテクスチャ" href="palette.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="shaderparam.html" title="シェーダーのパラメータについて"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="palette.html" title="パレットテクスチャ"
+             accesskey="P">前へ</a> |</li>
+        <li><a href="../index.html">Pixel Art Shader 1.0.1 ドキュメント</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">データについて</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>モデルテクスチャ<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="line-block">
+<div class="line">Blender 上でモデルにテクスチャを貼ることで、ドット絵シェーダーでもテクスチャを使用することができます。</div>
+<div class="line">その場合はドット絵シェーダー専用のテクスチャを <strong>テクスチャコンバータ</strong> を使用して用意する必要があります。</div>
+<div class="line">コンバートしたテクスチャのことを <strong>モデルテクスチャ</strong> と呼びます。</div>
+<div class="line"><br /></div>
+<div class="line">また、マルチテクスチャには対応していません。</div>
+<div class="line">Blender 上では1つのマテリアルにつき、テクスチャは1枚までです。</div>
+<div class="line">マテリアルを複数使用してテクスチャを複数枚使用することは可能です。</div>
+<div class="line"><br /></div>
+<div class="line">このページでは、テクスチャコンバータが入出力するテクスチャの詳細と、テクスチャコンバータの使い方を解説します。</div>
+<div class="line">また、モデルテクスチャのサンプルとして、サンプルデータ3を添付してあります。</div>
+</div>
+<div class="section" id="id2">
+<h2>テクスチャコンバータが入出力するテクスチャ<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">テクスチャコンバータに入力するテクスチャには、</div>
+</div>
+<ul class="simple">
+<li>マテリアルテクスチャ</li>
+<li>アンビエントオクルージョンテクスチャ</li>
+<li>ライトテクスチャ</li>
+</ul>
+<div class="line-block">
+<div class="line">の3種類があり、コンバートには最低でもこの中の1枚が必要です。</div>
+<div class="line">全ての入力テクスチャは同じ大きさである必要があります。</div>
+<div class="line">対応フォーマットはフルカラーの BMP か PNG です。</div>
+<div class="line">これに加えて設定ファイルを1つ用意します。</div>
+<div class="line"><br /></div>
+<div class="line">テクスチャコンバータは全ての入力テクスチャを合成して1枚のモデルテクスチャを出力します。</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>マテリアルテクスチャとは<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">マテリアルテクスチャとは、モデル上のどの部分にどのマテリアルを割り当てるかを指定するテクスチャです。</div>
+<div class="line">通常は Blender 上でマテリアルにマテリアル番号を指定しますが、このテクスチャを使う場合は Blender 上の設定は無視されます。</div>
+<div class="line"><br /></div>
+<div class="line">マテリアルテクスチャは使用するマテリアルに応じて色分けされたテクスチャです。</div>
+<div class="line">色分けにはどんな色を使っても構いません。</div>
+<div class="line">マテリアルテクスチャ上の色と、それに対応するマテリアル番号を設定ファイルに記述します。</div>
+<div class="line"><br /></div>
+<div class="line">例えば、マテリアルテクスチャに赤と青で模様を描き、設定ファイルには &#8220;赤がマテリアル1番&#8221; &#8220;青がマテリアル2番&#8221; というように書けば、レンダリングではそれぞれのマテリアルの色を使って模様が描かれます。</div>
+<div class="line"><br /></div>
+<div class="line"><strong>テクスチャは使用するがマテリアルテクスチャは使用しない</strong> という場合には、 <a class="reference internal" href="model.html"><em>モデルデータ</em></a> を参考に <code class="docutils literal"><span class="pre">マテリアルテクスチャなしフラグ</span></code> を設定してください。</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>アンビエントオクルージョンテクスチャとは<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">アンビエントオクルージョンテクスチャとは、モデルに当たる光を部分的に減衰させるテクスチャです。</div>
+<div class="line">例えば人体であれば、鼻の穴や脇の下などの光が当たらない場所に対してこのテクスチャで黒っぽく設定しておくと、レンダリング時に光が減衰して暗くなります。</div>
+<div class="line">この手法をアンビエントオクルージョンマッピングと言います。</div>
+<div class="line">詳細はググってください。</div>
+<div class="line"><br /></div>
+<div class="line">アンビエントオクルージョンテクスチャはモノクロ画像を用意してください。</div>
+<div class="line">黒い部分（RGB:#000000）はその部分の明るさを0%に減衰させます。</div>
+<div class="line">白い部分（RGB:#FFFFFF）はその部分の明るさを減衰させません。</div>
+<div class="line">黒～白の256段階で設定できます。</div>
+<div class="line"><br /></div>
+<div class="line">アンビエントオクルージョンテクスチャを使用しない場合は、全て白のテクスチャを使用したのと同じになります。</div>
+<div class="line"><br /></div>
+<div class="line">アンビエントオクルージョンテクスチャは手で描いても構いませんが、Blender にはモデルの形状から自動的に生成する機能があります。</div>
+<div class="line">詳細はググってください。</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>ライトテクスチャとは<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">ライトテクスチャとは、モデルを自己発光させるテクスチャです。</div>
+<div class="line">Blender 上で設定したライトに明るさを足します。</div>
+<div class="line"><br /></div>
+<div class="line">ライトテクスチャはモノクロ画像を用意してください。</div>
+<div class="line">黒い部分（RGB:#000000）はその部分の明るさを変化させません。</div>
+<div class="line">白い部分（RGB:#FFFFFF）はその部分の明るさを最大%まで明るくします。</div>
+<div class="line">黒～白の256段階で設定できます。</div>
+<div class="line"><br /></div>
+<div class="line">ライトテクスチャを使用しない場合は、全て黒のテクスチャを使用したのと同じになります。</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>設定ファイル<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">モデルテクスチャを出力するには、○○.teco という設定ファイルを用意します。</div>
+<div class="line">○○の部分は Blender 上で使用しているのと同じ名前にしておくのがいいでしょう。</div>
+</div>
+<div class="section" id="id7">
+<h3>サンプル<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="line-block">
+<div class="line">全体の構成は以下のようになります。</div>
+</div>
+<div class="highlight-teco"><div class="highlight"><pre><span class="k">#include</span> <span class="s">&quot;..\\..\\bin\\TexConv_common.h&quot;</span>        <span class="c1">// 必ず必要な行</span>
+
+
+dest_name <span class="s">&quot;..\\tex.png&quot;</span> <span class="c1">// 出力するファイル名を指定</span>
+
+
+tex_material <span class="s">&quot;tex_mate.png&quot;</span>     <span class="c1">// マテリアルテクスチャを指定</span>
+tex_ao <span class="s">&quot;tex_ao.png&quot;</span>             <span class="c1">// アンビエントオクルージョンテクスチャを指定</span>
+
+ao_rate 0.5     <span class="c1">// アンビエントオクルージョンテクスチャの影響度を半分にする</span>
+
+
+<span class="c1">// マテリアルテクスチャ内の色とマテリアル番号を対応づける</span>
+
+<span class="c1">// 1: 赤い部分をマテリアル1番にする</span>
+set 1, 255, 0, 0
+
+<span class="c1">// 2: 青い部分をマテリアル2番にする</span>
+set 2, 0x00, 0x00, 0xFF
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>命令<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="line-block">
+<div class="line">設定ファイル中で使用できる命令は以下の通りです。</div>
+</div>
+<blockquote>
+<div><dl class="docutils">
+<dt>dest_name str filename</dt>
+<dd><div class="first last line-block">
+<div class="line">出力するモデルテクスチャの名前を指定します。</div>
+<div class="line">この名前は Blender 上で貼られたテクスチャと同じ名前を指定してください（拡張子含む）。</div>
+<div class="line">また、出力するフォルダは src の親フォルダ（.x のあるフォルダ）にしてください。</div>
+<div class="line">filename：出力するモデルテクスチャの名前（例：&#8221;..\\hoge.png&#8221;）</div>
+</div>
+</dd>
+<dt>tex_material str texname</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルテクスチャを指定します。</div>
+<div class="line">texname：マテリアルテクスチャの名前</div>
+</div>
+</dd>
+<dt>set int palette, int r, int g, int b</dt>
+<dd><div class="first last line-block">
+<div class="line">マテリアルテクスチャ内の色とマテリアル番号を対応づけます。</div>
+<div class="line">複数指定可能です。</div>
+<div class="line">※マテリアルテクスチャ内の色は、この命令で指定した色と多少違っていても構いません。</div>
+<div class="line">palette：マテリアル番号（0以上）</div>
+<div class="line">r：赤成分（0～255）</div>
+<div class="line">g：緑成分（0～255）</div>
+<div class="line">b：青成分（0～255）</div>
+</div>
+</dd>
+<dt>tex_ao str texname</dt>
+<dd><div class="first last line-block">
+<div class="line">アンビエントオクルージョンテクスチャを指定します。</div>
+<div class="line">texname：アンビエントオクルージョンテクスチャの名前</div>
+</div>
+</dd>
+<dt>ao_rate float rate</dt>
+<dd><div class="first last line-block">
+<div class="line">アンビエントオクルージョンテクスチャの影響度を調整します。</div>
+<div class="line">デフォルトは 1.0 です。</div>
+<div class="line">0.0 に近づけるとアンビエントオクルージョンテクスチャが薄くなって（白に近づいて）いき、</div>
+<div class="line">0.0 にすると、アンビエントオクルージョンテクスチャを入力しなかったのと同じになります。</div>
+<div class="line">※この命令はアンビエントオクルージョンテクスチャを指定した場合のみ有効</div>
+<div class="line">rate：影響度（0.0 ～ 1.0）</div>
+</div>
+</dd>
+<dt>tex_light str texname</dt>
+<dd><div class="first last line-block">
+<div class="line">ライトテクスチャを指定します。</div>
+<div class="line">texname：ライトテクスチャの名前</div>
+</div>
+</dd>
+<dt>light_rate float rate</dt>
+<dd><div class="first last line-block">
+<div class="line">ライトテクスチャの影響度を調整します。</div>
+<div class="line">デフォルトは 1.0 です。</div>
+<div class="line">0.0 に近づけるとライトテクスチャが薄くなって（黒に近づいて）いき、</div>
+<div class="line">0.0 にすると、ライトテクスチャを入力しなかったのと同じになります。</div>
+<div class="line">※この命令はライトテクスチャを指定した場合のみ有効</div>
+<div class="line">rate：影響度（0.0以上）</div>
+</div>
+</dd>
+<dt>light_value float value</dt>
+<dd><div class="first last line-block">
+<div class="line">ライトテクスチャを指定する代わりに、値を直接指定します。</div>
+<div class="line">デフォルトは 0.0 です。</div>
+<div class="line">※この命令はライトテクスチャを <strong>指定しなかった場合</strong> のみ有効</div>
+<div class="line">value：明るさ（0.0 ～ 1.0）</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>テクスチャコンバータの使い方<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">予め src フォルダにある TexConv.bat をテキストエディタで編集し、.teco ファイルの名前を設定ファイルの名前にしておきます。</div>
+<div class="line">TexConv.bat を実行するとテクスチャがコンバートされます。</div>
+<div class="line"><br /></div>
+<div class="line">テクスチャを複数枚コンバートする場合は、.teco ファイル名が書かれている行をコピペで複製してください。</div>
+<div class="line"><br /></div>
+<div class="line">フォルダの階層構造を変化させると動作しません。</div>
+<div class="line">その場合は ○○.teco 内の <code class="docutils literal"><span class="pre">#include</span></code> 及び TexConv.bat を編集してください。</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">目次</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../outline.html">ドット絵シェーダーの概要</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../outline.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../outline.html#id3">必要なデータ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../outline.html#id4">出力されるデータ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../firststep.html">最初の一歩</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../firststep.html#id2">実行してみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firststep.html#id3">実行モード</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firststep.html#id4">調整モードの使い方</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firststep.html#id5">データを見てみる</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">データについて</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="structure.html">データ構造</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">configファイル</a></li>
+<li class="toctree-l2"><a class="reference internal" href="teco.html">Teco形式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html">モデルデータ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="palette.html">パレットテクスチャ</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">モデルテクスチャ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shaderparam.html">シェーダーのパラメータについて</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">ライセンス</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../license.html#id2">ライセンスについて</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">更新履歴</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#ver-1-0-0-2015-02-06">ver. 1.0.0  2015/02/06</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#ver-1-0-1-2016-02-22">ver. 1.0.1  2016/02/22</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="shaderparam.html" title="シェーダーのパラメータについて"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="palette.html" title="パレットテクスチャ"
+             >前へ</a> |</li>
+        <li><a href="../index.html">Pixel Art Shader 1.0.1 ドキュメント</a> &raquo;</li>
+          <li><a href="index.html" >データについて</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, 2016, Toshihiro Kushizaki.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3b2 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+
+
+*.log
+*.ipch
+*.opensdf
+*.sdf
+*.tlog
+*.idb
+*.pdb
+*.intermediate.manifest
+*.lastbuildstate
+source/dotshader/temp/*
+*.blend?
+*/Debug/*
+
+log.html
+

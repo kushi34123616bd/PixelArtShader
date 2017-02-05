@@ -1,0 +1,39 @@
+.. Teco documentation master file, created by
+   sphinx-quickstart on Tue Jun 21 17:31:06 2011.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+ドット絵シェーダー マニュアル
+==============================================================================================================================
+
+.. todolist::
+
+| 最近はドット絵のゲームが少ないなぁ
+| 開発費がたくさんかかるらしいからなぁ
+| そうだ！シェーダーで量産できるようにしたらドット絵のゲーム増えるんじゃね！？
+| ということで作ってみました
+| 
+| まだまだな完成度ですが、フィードバックお願いします！
+
+
+
+目次:
+
+.. toctree::
+
+	outline
+	firststep
+	aboutdata/index
+	license
+	changelog
+
+..
+	:maxdepth: 3
+
+	Indices and tables
+	==================
+
+	* :ref:`genindex`
+	* :ref:`modindex`
+	* :ref:`search`
+
